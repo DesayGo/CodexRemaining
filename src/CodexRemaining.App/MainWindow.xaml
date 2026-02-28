@@ -1,0 +1,66 @@
+<Window x:Class="CodexRemaining.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CodexRemaining.App.ViewModels"
+        mc:Ignorable="d"
+        Title="Codex Remaining"
+        Topmost="True"
+        Width="380"
+        Height="400"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="14" Padding="14" Opacity="{Binding WindowOpacity}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel>
+                <TextBlock Text="Codex 使用限制" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <Button Command="{Binding ToggleCompactCommand}" Content="紧凑/扩展" Margin="0,0,8,0" Padding="8,2"/>
+                    <Button Command="{Binding HideWindowCommand}" Content="隐藏" Padding="8,2"/>
+                </StackPanel>
+            </DockPanel>
+
+            <TextBlock Grid.Row="1" Text="{Binding LastUpdateText}" Foreground="{StaticResource SubtleTextBrush}" Margin="0,8,0,10"/>
+
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Metrics}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:MetricViewModel}">
+                            <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="10" Margin="0,0,0,8">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding Name}" Foreground="{StaticResource TextBrush}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding PercentText}" Foreground="{Binding StatusBrush}" DockPanel.Dock="Right" />
+                                    </DockPanel>
+                                    <ProgressBar Value="{Binding RemainingPercent}" Maximum="100" Height="10" Margin="0,8,0,6" Foreground="{Binding StatusBrush}" />
+                                    <TextBlock Text="{Binding DetailText}" Foreground="{StaticResource SubtleTextBrush}" FontSize="11" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="刷新(秒):" Foreground="{StaticResource SubtleTextBrush}" VerticalAlignment="Center"/>
+                <TextBox Width="50" Margin="6,0,10,0" Text="{Binding RefreshSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Command="{Binding RefreshNowCommand}" Content="立即刷新" Padding="10,3"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

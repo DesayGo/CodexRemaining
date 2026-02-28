@@ -1,0 +1,11 @@
+<Application x:Class="CodexRemaining.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#1A1F2E" />
+        <SolidColorBrush x:Key="CardBrush" Color="#262E42" />
+        <SolidColorBrush x:Key="TextBrush" Color="#EAF2FF" />
+        <SolidColorBrush x:Key="SubtleTextBrush" Color="#AFC2E0" />
+    </Application.Resources>
+</Application>
